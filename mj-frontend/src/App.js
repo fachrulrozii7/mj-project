@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import ProductList from "./components/ProductList";
+import ProductList from "./components/ProductForm";
 import InventoryList from "./components/InventoryList";
 
 function App() {

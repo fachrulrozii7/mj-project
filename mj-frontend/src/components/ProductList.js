@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
-  const [form, setForm] = useState({
+  const [formDetail, setForm] = useState({
     name: "",
     category: "",
     barcode: "",
@@ -25,9 +25,9 @@ export default function ProductList() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      await axios.put(`http://localhost:5000/api/products/${editingId}`, form);
+      await axios.put(`http://localhost:5000/api/products/${editingId}`, formDetail);
     } else {
-      await axios.post("http://localhost:5000/api/products", form);
+      await axios.post("http://localhost:5000/api/products", formDetail);
     }
     setForm({ name: "", category: "", barcode: "", cost_price: "", sell_price: "", supplier: "" });
     setEditingId(null);
@@ -51,13 +51,13 @@ export default function ProductList() {
       {/* Form */}
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-4 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.keys(form).map((field) => (
+          {Object.keys(formDetail).map((field) => (
             <input
               key={field}
               type={field.includes("price") ? "number" : "text"}
               placeholder={field.replace("_", " ").toUpperCase()}
-              value={form[field]}
-              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+              value={formDetail[field]}
+              onChange={(e) => setForm({ ...formDetail, [field]: e.target.value })}
               className="border rounded p-2"
               required={field === "name" || field === "cost_price" || field === "sell_price"}
             />
