@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import API from '../Api';
 
-const ProductForm = ({ fetchProducts, editProduct, setEditProduct }) => {
+const ProductForm = ({ editProduct, setEditProduct }) => {
+  const [products, setProducts] = useState([]);
+    
   const [form, setForm] = useState({
     name: '', category: '', barcode: '', cost_price: '', sell_price: '', supplier: ''
   });
@@ -20,10 +23,16 @@ const ProductForm = ({ fetchProducts, editProduct, setEditProduct }) => {
       await API.put(`/products/${editProduct.id}`, form);
       setEditProduct(null);
     } else {
-      await API.post('/products', form);
+      //await API.post('/products', form);
+      await axios.post("http://localhost:5000/api/products", form);
     }
     setForm({ name: '', category: '', barcode: '', cost_price: '', sell_price: '', supplier: '' });
     fetchProducts();
+  };
+
+  const fetchProducts = async () => {
+    const res = await axios.get("http://localhost:5000/api/products");
+    setProducts(res.data);
   };
 
   return (
